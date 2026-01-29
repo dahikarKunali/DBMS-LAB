@@ -1,0 +1,55 @@
+Practical 2
+
+2.1 alter table department modify name varchar2(30);
+
+2.2 alter table department modify building varchar2(30) not null;
+
+2.3 alter table tablename rename field to new field;
+
+2.4 select * from department;
+    select * from instructor;
+
+2.5 update instructor set salary = salary + salary * .1 where dept_id = (select dept_id from department where name = 'History';
+
+2.6 update instructor set salary = salary + salary * 5/100 where salary < 80000;
+
+2.7 update instructor set salary = salary - salary * 5/100 where salary > 85000; #condition is salary is done 80000 but below deduce 5%;
+
+2.8.1 desc course;
+      select * from course;
+      insert into course (course_id, title,dept_id, credits) values('CS-001', 'Weekly Seminar', 1, 1);
+
+2.8.2 insert into section (section_id, course_id, sec_id, semester, year) values (8, 'CS-001', 1, 'FALL', 2017);
+
+2.8.3 delete from table where course_id = 'CS_001';
+
+2.10.1 to create a seq:
+      create sequence emp_seq start with 1 increment by 1;
+
+     now create table:
+     create table emp (emp_id int primary key, name varchar2(20), mobile int);
+
+     insert into emp:
+     insert into emp (emp_id, name, mobile) values (emp_seq.nextval, 'xyz', 9876543210);
+     insert into emp (emp_id, name, mobile) values (emp_seq.nextval, 'xyz1', 9876543210);
+     insert into emp (emp_id, name, mobile) values (emp_seq.nextval, 'xyz2', 9876543210);
+     insert into emp (emp_id, name, mobile) values (emp_seq.nextval, 'xyz3', 9876543210);
+     insert into emp (emp_id, name, mobile) values (emp_seq.nextval, 'xyz4', 9876543210);
+     insert into emp (emp_id, name, mobile) values (emp_seq.nextval, 'xyz5', 9876543210);
+     insert into emp (emp_id, name, mobile) values (emp_seq.nextval, 'xyz6', 9876543210);
+     insert into emp (emp_id, name, mobile) values (emp_seq.nextval, 'xyz7', 9876543210);
+     insert into emp (emp_id, name, mobile) values (emp_seq.nextval, 'xyz8', 9876543210);
+     insert into emp (emp_id, name, mobile) values (emp_seq.nextval, 'xyz9', 9876543210);
+     
+2.10.2 drop sequence emp_seq; #Sequence dropped.
+
+       select max(emp_id) from emp; #this will display the maximum number of the table
+
+2.11 rename the table:
+     rename emp to employee;
+
+     rename the field:
+     alter table emp rename column mobile to mobilenumber;
+
+2.12 alter table employee add pincode number(6);
+     alter table employee add pincode number not null;
