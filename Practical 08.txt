@@ -1,0 +1,96 @@
+Practical 8
+
+If there are marks of 4 subjects
+
+1) Check for pass condition each subject must be of 50 marks
+
+2) Check for:
+   a) Distinction if total above 75%
+   b) Find division if total above 60%
+   c) Second division if total above 50%
+
+Case 1          Case 2
+CS = 75         CS = 75
+M1 = 45         M1 = 79
+M2 = 52         M2 = 100
+M3 = 75         M3 = 95
+
+code:
+SET SERVEROUTPUT ON;
+
+DECLARE
+ cs NUMBER;
+ m1 NUMBER;
+ m2 NUMBER;
+ m3 NUMBER;
+ total NUMBER;
+ per NUMBER;
+
+BEGIN
+ cs := &cs;
+ m1 := &m1;
+ m2 := &m2;
+ m3 := &m3;
+
+ IF cs < 50 OR m1 < 50 OR m2 < 50 OR m3 < 50 THEN
+     DBMS_OUTPUT.PUT_LINE('Result: FAIL');
+ ELSE
+     DBMS_OUTPUT.PUT_LINE('Result: PASS');
+
+     total := cs + m1 + m2 + m3;
+     per := (total / 400) * 100;
+
+     DBMS_OUTPUT.PUT_LINE('Total Marks: ' || total);
+     DBMS_OUTPUT.PUT_LINE('Percentage: ' || per);
+
+     IF per > 75 THEN
+         DBMS_OUTPUT.PUT_LINE('Division: Distinction');
+     ELSIF per > 60 THEN
+         DBMS_OUTPUT.PUT_LINE('Division: First Division');
+     ELSIF per > 50 THEN
+         DBMS_OUTPUT.PUT_LINE('Division: Second Division');
+     ELSE
+         DBMS_OUTPUT.PUT_LINE('Division: Pass');
+     END IF;
+ END IF;
+
+END;
+/
+
+output:
+case1:
+Enter value for cs: 75
+old   9: cs := &cs;
+new   9: cs := 75;
+Enter value for m1: 45
+old  10: m1 := &m1;
+new  10: m1 := 45;
+Enter value for m2: 52
+old  11: m2 := &m2;
+new  11: m2 := 52;
+Enter value for m3: 75
+old  12: m3 := &m3;
+new  12: m3 := 75;
+Result: FAIL
+
+PL/SQL procedure successfully completed.
+
+case2:
+Enter value for cs: 75
+old   9: cs := &cs;
+new   9: cs := 75;
+Enter value for m1: 79
+old  10: m1 := &m1;
+new  10: m1 := 79;
+Enter value for m2: 100
+old  11: m2 := &m2;
+new  11: m2 := 100;
+Enter value for m3: 95
+old  12: m3 := &m3;
+new  12: m3 := 95;
+Result: PASS
+Total Marks: 349
+Percentage: 87.25
+Division: Distinction
+
+PL/SQL procedure successfully completed.
