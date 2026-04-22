@@ -1,0 +1,79 @@
+Practical 17
+
+SQL> DESC EMP2;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                              NUMBER(38)
+ NAME                                               VARCHAR2(20)
+ CATEGORY                                           NUMBER(38)
+ SALARY                                             NUMBER(10,2)
+
+
+CREATE TABLE EMP2_AUD AS 
+SELECT * FROM EMP2 WHERE 1=2;
+Table created.
+
+SQL> SELECT * FROM EMP2_AUD;
+no rows selected
+
+SQL> DESC EMP2_AUD;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                              NUMBER(38)
+ NAME                                               VARCHAR2(20)
+ CATEGORY                                           NUMBER(38)
+ SALARY                                             NUMBER(10,2)
+
+SQL> ALTER TABLE EMP2_AUD ADD NEW_SALARY NUMBER(10,2);
+
+Table altered.
+
+SQL> ALTER TABLE EMP2_AUD ADD MOD_DATE DATE;
+
+Table altered.
+
+SQL> DESC EMP2_AUD;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                              NUMBER(38)
+ NAME                                               VARCHAR2(20)
+ CATEGORY                                           NUMBER(38)
+ SALARY                                             NUMBER(10,2)
+ NEW_SALARY                                         NUMBER(10,2)
+ MOD_DATE                                           DATE
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+
+TRIGGER FOR EVERY UPDATION EMP2
+
+CREATE OR REPLACE TRIGGER SAL_AUD 
+AFTER UPDATE OF SALARY ON EMP2 
+FOR EACH ROW
+BEGIN 
+  INSERT INTO EMP2_AUD(EMPNO,NAME,CATEGORY,SALARY,NEW_SALARY,MOD_DATE) VALUES(:OLD.EMPNO,:OLD.NAME,:OLD.CATEGORY,:OLD.SALARY,:NEW.SALARY,SYSDATE);
+END;
+/
+Trigger created.
+
+UPDATE EMP2 SET SALARY=15000 WHERE EMPNO=101;
+1 row updated.
+
+SQL> SELECT * FROM EMP2;
+
+     EMPNO NAME                   CATEGORY     SALARY
+---------- -------------------- ---------- ----------
+       101 Arnav                         1      15000
+       102 Anushka                       1      15000
+       103 ASTRA                         2      25000
+       104 Dev                           2      35000
+       105 ARYAN                         3      45000
+       105 Himanshu                      3      50000
+       106 ASHI                          1      20000
+
+7 rows selected.
+
+SQL> SELECT * FROM EMP2_AUD;
+
+     EMPNO NAME                   CATEGORY     SALARY NEW_SALARY MOD_DATE
+---------- -------------------- ---------- ---------- ---------- ---------
+       101 Arnav                           1      10000      15000 15-APR-26
