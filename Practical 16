@@ -1,0 +1,35 @@
+create or replace trigger max_min_sal for insert or update on emp2
+  2  COMPOUND TRIGGER
+  3  v_max emp2.salary%type;
+  4   v_min emp2.salary%type;
+  5  v_upper emp2.salary%type;
+  6  v_lower emp2.salary%type;
+  7
+  8  BEFORE STATEMENT IS
+  9  begin
+ 10   select max(salary) into v_max from emp2;
+ 11   select min(salary) into v_min from emp2;
+ 12
+ 13   v_upper:=v_min*10;
+ 14  v_lower:=v_max/10;
+ 15
+ 16  END BEFORE STATEMENT;
+ 17
+ 18  BEFORE EACH ROW IS
+ 19  BEGIN
+ 20  if :new.salary<v_lower or :new.salary>v_upper then
+ 21    RAISE_APPLICATION_ERROR(-20001,'VALUE NOT IN RANGE '||v_lower || ' TO ' || v_upper);
+ 22  end if;
+ 23  END BEFORE EACH ROW;
+ 24  end;
+ 25  /
+
+Trigger created.
+
+SQL> insert into emp2 values(107,'Kane',2,4000);
+insert into emp2 values(107,'Kane',2,4000)
+            *
+ERROR at line 1:
+ORA-20001: VALUE NOT IN RANGE 5000 TO 100000
+ORA-06512: at "D1.MAX_MIN_SAL", line 20
+ORA-04088: error during execution of trigger 'D1.MAX_MIN_SAL'
