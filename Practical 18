@@ -1,0 +1,28 @@
+Practical 18 
+
+create table emp2_Insert as select * from emp2 where 1 = 2;
+
+alter table emp2_Insert add (New_Sal Number(8, 2), mod_date date);
+
+Create or replace trigger Sal_aud2
+After insert on emp2
+for each row
+begin
+insert into emp2_Insert(empno, name, category, salary, new_sal, mod_date) values (:old.empno, :old.name, :old.category, :old.salary, NULL, NULL);
+end;
+/
+
+
+
+
+create table emp2_Update as select * from emp2 where 1 = 2;
+
+alter table emp2_Update add (New_Sal Number(8, 2), mod_date date);
+
+Create or replace trigger Sal_aud3
+After delete on emp2
+for each row
+begin
+insert into emp2_Update(empno, name, category, salary, new_sal, mod_date) values (:old.empno, :old.name, :old.category, :old.salary, NULL, sysdate);
+end;
+/
